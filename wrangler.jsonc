@@ -3,12 +3,10 @@
   "name": "next-video-tube",
   "main": "worker.js",
   "compatibility_date": "2026-07-27",
-
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
   },
-
   "d1_databases": [
     {
       "binding": "DB",
