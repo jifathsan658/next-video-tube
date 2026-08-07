@@ -10,10 +10,12 @@ const demoContent = [
 ];
 
 let selected = null;
+let allContent = demoContent;
 const grid = document.getElementById("contentGrid");
 const modal = document.getElementById("modal");
 
 function render(items){
+allContent = items;
   grid.innerHTML = items.map(x => `
     <article class="card" data-id="${x.id}">
       <div class="thumb">
@@ -112,3 +114,25 @@ function completeUnlock(){
 }
 document.getElementById("unlockBtn").onclick=unlock;
 loadContent();
+
+document.querySelectorAll(".chip").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const text=btn.textContent.trim();
+
+    if(text.includes("Trending")){
+      render(allContent);
+    }else if(text.includes("Fashion")){
+      render(allContent.filter(x=>x.category==="Fashion"));
+    }else if(text.includes("Lifestyle")){
+      render(allContent.filter(x=>x.category==="Lifestyle"));
+    }else if(text.includes("Music")){
+      render(allContent.filter(x=>x.category==="Music"));
+    }else{
+      render(allContent);
+    }
+  });
+});
+
+document.querySelector(".link-btn").addEventListener("click",()=>{
+  render(allContent);
+});
