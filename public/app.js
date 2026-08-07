@@ -373,3 +373,78 @@ if (bottomButtons[3]) {
 ========================= */
 
 loadContent();
+
+/* Mobile menu */
+(() => {
+  const menuBtn = document.getElementById("profileBtn");
+  if (!menuBtn) return;
+
+  const menu = document.createElement("div");
+  menu.id = "mobileMenu";
+  menu.innerHTML = `
+    <button data-target="home">🏠 Home</button>
+    <button data-target="categories">◈ Categories</button>
+    <button data-target="unlock">🔓 Unlock</button>
+    <button data-target="history">◷ History</button>
+  `;
+
+  Object.assign(menu.style, {
+    position: "fixed",
+    top: "76px",
+    right: "18px",
+    zIndex: "9999",
+    display: "none",
+    padding: "10px",
+    borderRadius: "16px",
+    background: "rgba(18,16,35,.97)",
+    border: "1px solid rgba(180,100,255,.35)",
+    boxShadow: "0 12px 35px rgba(0,0,0,.45)"
+  });
+
+  menu.querySelectorAll("button").forEach(btn => {
+    Object.assign(btn.style, {
+      display: "block",
+      width: "150px",
+      padding: "12px 14px",
+      margin: "3px 0",
+      border: "0",
+      borderRadius: "10px",
+      background: "transparent",
+      color: "#fff",
+      textAlign: "left",
+      fontSize: "15px"
+    });
+
+    btn.onclick = () => {
+      const target = btn.dataset.target;
+      menu.style.display = "none";
+
+      if (target === "home") {
+        window.scrollTo({top: 0, behavior: "smooth"});
+      } else if (target === "categories") {
+        document.querySelector(".section-head")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      } else if (target === "unlock") {
+        document.querySelector(".bottom-nav button:nth-child(3)")?.click();
+        window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"});
+      } else if (target === "history") {
+        document.querySelector(".bottom-nav button:nth-child(4)")?.click();
+      }
+    };
+  });
+
+  document.body.appendChild(menu);
+
+  menuBtn.onclick = (e) => {
+    e.stopPropagation();
+    menu.style.display = menu.style.display === "none" ? "block" : "none";
+  };
+
+  document.addEventListener("click", (e) => {
+    if (!menu.contains(e.target) && e.target !== menuBtn) {
+      menu.style.display = "none";
+    }
+  });
+})();
