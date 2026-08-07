@@ -136,3 +136,30 @@ document.querySelectorAll(".chip").forEach(btn=>{
 document.querySelector(".link-btn").addEventListener("click",()=>{
   render(allContent);
 });
+
+document.querySelectorAll(".bottom-nav button").forEach((btn,i)=>{
+  btn.addEventListener("click",()=>{
+    if(i===0) window.scrollTo({top:0,behavior:"smooth"});
+    if(i===1) window.scrollTo({top:500,behavior:"smooth"});
+    if(i===2){
+      if(selected) openContent(selected);
+      else if(allContent.length) openContent(allContent[0]);
+    }
+    if(i===3) alert("History এখনো খালি।");
+  });
+});
+
+document.querySelectorAll(".chip").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const text=btn.textContent.trim();
+    let items=allContent;
+    if(text.includes("Fashion")){
+      items=allContent.filter(x=>x.category==="Fashion");
+    }else if(text.includes("Lifestyle")){
+      items=allContent.filter(x=>x.category==="Lifestyle");
+    }else if(text.includes("Music")){
+      items=allContent.filter(x=>x.category==="Music");
+    }
+    render(items.length ? items : allContent);
+  });
+});
