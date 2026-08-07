@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080812">
+  <title>Next Video Tube</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="/config.js"></script>
+</head>
+<body>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">▶</div>
+      <div>
+        <div class="brand-title">Next <span>Video Tube</span></div>
+        <div class="brand-sub">Telegram Mini App</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="profileBtn">☰</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="pill">✨ NEW CONTENT</span>
+        <h1>Premium content<br><span>for you</span></h1>
+        <p>Preview দেখুন, তারপর বৈধ rewarded ad সম্পন্ন করে content unlock করুন।</p>
+        <button class="primary" id="startBtn">Explore Now <span>→</span></button>
+      </div>
+      <div class="hero-art">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="play">▶</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Categories</h2><button class="link-btn">View all</button>
+      </div>
+      <div class="chips">
+        <button class="chip">🔥 Trending</button>
+        <button class="chip">👗 Fashion</button>
+        <button class="chip">🎵 Music</button>
+        <button class="chip">📸 Lifestyle</button>
+        <button class="chip">✨ More</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Trending now</h2><button class="link-btn">Refresh</button>
+      </div>
+      <div class="grid" id="contentGrid"></div>
+    </section>
+
+    <section class="how">
+      <div class="section-head"><h2>How unlock works</h2></div>
+      <div class="steps">
+        <div><b>01</b><span>Preview</span></div>
+        <div><b>02</b><span>Tap Unlock</span></div>
+        <div><b>03</b><span>Watch Rewarded Ad</span></div>
+        <div><b>04</b><span>Get Content</span></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="active">⌂<small>Home</small></button>
+    <button>◈<small>Categories</small></button>
+    <button>🔓<small>Unlock</small></button>
+    <button>◷<small>History</small></button>
+  </nav>
+
+  <div class="modal hidden" id="modal">
+    <div class="modal-card">
+      <button class="close" id="closeModal">×</button>
+      <img id="modalImg" src="" alt="Preview">
+      <div class="modal-body">
+        <span class="pill" id="modalCat">Content</span>
+        <h2 id="modalTitle">Content</h2>
+        <p id="modalDesc"></p>
+        <button class="primary wide" id="unlockBtn">🔓 Unlock with Rewarded Ad</button>
+        <p class="hint">Ad complete/confirmed হলে unlock দেওয়া হবে।</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
