@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "next-video-tube",
-  "main": "src/worker.js",
+  "main": "worker.js",
   "compatibility_date": "2026-07-27",
   "assets": {
     "directory": "./public"
