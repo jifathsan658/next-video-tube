@@ -10,7 +10,7 @@
     {
       "binding": "DB",
       "database_name": "next-video-tube",
-      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+      "database_id": "20f2dd2d-7f78-47b3-ad32-462de22e4877
     }
   ]
 }
