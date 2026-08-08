@@ -78,6 +78,10 @@ function render(items) {
       <div class="thumb">
         <img src="${escapeHtml(x.preview_url)}" alt="">
         <span class="lock">🔒 Locked</span>
+        <button class="favorite-btn" type="button"
+          aria-label="Favorite"
+          style="position:absolute;right:10px;top:10px;border:0;border-radius:50%;padding:9px;background:rgba(0,0,0,.65);color:#fff;font-size:20px;z-index:2;"
+        >♡</button>
       </div>
       <div class="card-body">
         <div class="card-title">${escapeHtml(x.title)}</div>
@@ -447,4 +451,83 @@ loadContent();
       menu.style.display = "none";
     }
   });
+})();
+
+/* Search */
+(() => {
+  const input = document.getElementById("searchInput");
+  if (!input) return;
+
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+
+    if (!q) {
+      render(masterContent);
+      return;
+    }
+
+    const results = masterContent.filter(item =>
+      String(item.title || "").toLowerCase().includes(q) ||
+      String(item.description || "").toLowerCase().includes(q) ||
+      String(item.category || "").toLowerCase().includes(q)
+    );
+
+    render(results);
+  });
+})();
+
+/* Favorites */
+(() => {
+  const favKey = "nvt_favorites";
+  let favorites = JSON.parse(localStorage.getItem(favKey) || "[]");
+
+  function isFavorite(id) {
+    return favorites.some(x => x.id === id);
+  }
+
+  function saveFavorites() {
+    localStorage.setItem(favKey, JSON.stringify(favorites));
+  }
+
+  function toggleFavorite(item) {
+    if (isFavorite(item.id)) {
+      favorites = favorites.filter(x => x.id !== item.id);
+    } else {
+      favorites.push(item);
+    }
+    saveFavorites();
+    render(masterContent);
+  }
+
+  const oldOpenContent = window.openContent;
+
+  document.addEventListener("click", e => {
+    const card = e.target.closest(".card[data-id]");
+    if (!card) return;
+
+    const item = masterContent.find(x => x.id === card.dataset.id);
+    if (!item) return;
+
+    if (e.target.closest(".favorite-btn")) {
+      e.stopPropagation();
+      toggleFavorite(item);
+    }
+  });
+
+  const favBtn = document.getElementById("favoritesBtn");
+
+  if (favBtn) {
+    favBtn.addEventListener("click", () => {
+      const items = favorites.filter(f =>
+        masterContent.some(x => x.id === f.id)
+      );
+
+      render(items);
+
+      document.getElementById("contentGrid")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  }
 })();
