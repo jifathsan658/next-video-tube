@@ -476,48 +476,67 @@ loadContent();
   });
 })();
 
-/* Favorites */
+
+/* =========================
+   PROFESSIONAL FAVORITES
+========================= */
+
 (() => {
   const favKey = "nvt_favorites";
-  let favorites = JSON.parse(localStorage.getItem(favKey) || "[]");
 
-  function isFavorite(id) {
-    return favorites.some(x => x.id === id);
+  function getFavorites() {
+    try {
+      return JSON.parse(localStorage.getItem(favKey) || "[]");
+    } catch {
+      return [];
+    }
   }
 
-  function saveFavorites() {
-    localStorage.setItem(favKey, JSON.stringify(favorites));
+  function saveFavorites(items) {
+    localStorage.setItem(favKey, JSON.stringify(items));
+  }
+
+  function isFavorite(id) {
+    return getFavorites().some(item => item.id === id);
   }
 
   function toggleFavorite(item) {
+    let favorites = getFavorites();
+
     if (isFavorite(item.id)) {
       favorites = favorites.filter(x => x.id !== item.id);
     } else {
-      favorites.push(item);
+      favorites.unshift(item);
     }
-    saveFavorites();
+
+    saveFavorites(favorites);
+
+    // Re-render current content
     render(masterContent);
   }
 
-  const oldOpenContent = window.openContent;
+  document.addEventListener("click", (e) => {
+    const favoriteBtn = e.target.closest(".favorite-btn");
+    if (!favoriteBtn) return;
 
-  document.addEventListener("click", e => {
-    const card = e.target.closest(".card[data-id]");
+    e.preventDefault();
+    e.stopPropagation();
+
+    const card = favoriteBtn.closest(".card[data-id]");
     if (!card) return;
 
     const item = masterContent.find(x => x.id === card.dataset.id);
     if (!item) return;
 
-    if (e.target.closest(".favorite-btn")) {
-      e.stopPropagation();
-      toggleFavorite(item);
-    }
+    toggleFavorite(item);
   });
 
   const favBtn = document.getElementById("favoritesBtn");
 
   if (favBtn) {
     favBtn.addEventListener("click", () => {
+      const favorites = getFavorites();
+
       const items = favorites.filter(f =>
         masterContent.some(x => x.id === f.id)
       );
